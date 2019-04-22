@@ -1,7 +1,6 @@
 import unittest
 import curses
 from snake import sn
-from snake import *
 
 class TestSnake(unittest.TestCase):
 
