@@ -1,6 +1,7 @@
 import unittest
 import curses
 from snake import sn
+from snake import *
 
 class TestSnake(unittest.TestCase):
 
@@ -15,6 +16,11 @@ class TestSnake(unittest.TestCase):
 
         self.assertEqual(sn.direction,curses.KEY_UP)
 
+     def test_move(self):
+        '''Testing add menthod'''
+        field = Field (20, 20, sn)
+        sn.move(self, field)
+        self.assertEqual(sn.body[0],[9,10])
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
