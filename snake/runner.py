@@ -13,6 +13,16 @@ snake_direction = { 0:  curses.KEY_RIGHT,
 
 
 def angle_with_apple(snake_position, apple_position):
+	""" Функция вычисления вектора между напправлением двиижени змеи и яблоком
+		Args:
+			snake_position - координаты змеи
+			apple_position - координты яблока
+		Resume:
+			angle - угол в радианах
+			snake_direction_vector - вектор движения змеи
+			apple_direction_vector_normalized - нормированный вектор направленный на яблоко от змеи
+			snake_direction_vector_normalized - нормированный вектор движения змеи
+	"""
     apple_direction_vector = np.array(apple_position) - np.array(snake_position[0])
     snake_direction_vector = np.array(snake_position[0]) - np.array(snake_position[1])
 
@@ -34,6 +44,15 @@ def angle_with_apple(snake_position, apple_position):
 
 
 def is_direction_blocked(snake, key_type, field):
+	""" Определение того, можно ли двигаться по направлению
+		Args:
+			snake - змея
+			key_type - направление движения
+			field - поле
+		Resume:
+			0 - направление заблокировано
+			1 - направление свободно
+	"""
     snake.direction = snake_direction[key_type]
     snake.move(field)
     if snake.is_alive(field) == True:
@@ -42,6 +61,17 @@ def is_direction_blocked(snake, key_type, field):
 	return 0
 
 def blocked_directions(snake, snake_position, field):
+	""" Определение возможных путей движения
+		Args:
+			snake - змея
+			snake_position - координаты головы змеи
+			field - поле
+		Resume:
+			current_direction_vector - направление движения змеи
+			is_front_blocked - доступность движения вперед
+			is_left_blocked - доступность поворота налево
+			is_right_blocked - доступность поворота направо
+	"""
     snake_next = Snake(0, 0, snake_direction[1])
     snake_next.body = snake_position[:]
     snake_next.direction = snake.direction
@@ -78,6 +108,12 @@ def blocked_directions(snake, snake_position, field):
     return current_direction_vector, is_front_blocked, is_left_blocked, is_right_blocked
 
 def generate_button_direction(new_direction):
+	""" Сопоставление направления движения и кода этого движения
+		Args:
+			new_direction - направление
+		Resume:
+			button_direction - кодовое обозначение направления
+	"""
     button_direction = 0
     if new_direction.tolist() == [1, 0]:
         button_direction = 2
@@ -91,6 +127,13 @@ def generate_button_direction(new_direction):
     return button_direction
 
 def run_game(weights, screen):
+	""" Запуск нового особи. Отображение каждой на экран. Вывод набранного счета.
+		Args:
+			weights - веса неронной сети особи в поколении
+			screen - экран консоли
+		Resume:
+			score - результирующий счет
+	"""
 	score = 0
 	score1 = 0
 	score2 = 0
